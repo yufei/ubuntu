@@ -1,0 +1,39 @@
+# Server
+# install openssh-server
+# timedatectl set-timezone UTC or Asia/Shanghai
+#
+#/etc/network/interfaces
+## ifupdown has been replaced by netplan(5) on this system.  See
+## /etc/netplan for current configuration.
+## To re-enable ifupdown on this system, you can run:
+##    sudo apt install ifupdown
+#
+#/etc/netplan/01-netcfg.yaml
+## This file describes the network interfaces available on your system
+## For more information, see netplan(5).
+#network:
+#  version: 2
+#  renderer: networkd
+#  ethernets:
+#    enp0s3:
+#      dhcp4: yes
+#
+#/etc/netplan/01-netcfg.yaml
+## This file describes the network interfaces available on your system
+## For more information, see netplan(5).
+#network:
+#  version: 2
+#  renderer: networkd
+#  ethernets:
+#    enp0s3:
+#      addresses: [192.168.1.3/24]
+#      gateway4: 192.168.1.1
+#      nameservers:
+#        addresses: [192.168.1.1]
+#
+#DHCP
+#====
+#rfc4361
+---
+- name: import common
+  import_playbook: common.yml

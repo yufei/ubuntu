@@ -1,0 +1,117 @@
+http://archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/current/images/netboot/netboot.tar.gz
+chmod 644 bionic/ubuntu-installer/amd64/linux (perssion bug 600->644)
+SERVER
+
+label ubuntu desktop
+        menu label ubuntu ^desktop
+        kernel ubuntu/bionic/ubuntu-installer/amd64/linux
+        append vga=788 initrd=ubuntu/bionic/ubuntu-installer/amd64/initrd.gz auto=true priority=critical interface=auto netcfg/dhcp_timeout=60 url=http://SERVER/bionic/desktop.cfg -- quiet
+ 
+label ubuntu live server
+        menu label ubuntu ^live server
+        kernel /casper/vmlinuz
+        append boot=casper initrd=/casper/initrd.gz quiet  ---
+
+label ubuntu server
+        menu label ubuntu ^server
+        kernel ubuntu/bionic/ubuntu-installer/amd64/linux
+        append vga=788 initrd=ubuntu/bionic/ubuntu-installer/amd64/initrd.gz auto=true priority=critical interface=auto netcfg/dhcp_timeout=60 url=http://SERVER/bionic/server.cfg -- quiet
+ 
+label ubuntu rescue
+        menu label ubuntu ^rescue
+        kernel ubuntu/bionic/ubuntu-installer/amd64/linux
+        append vga=788 initrd=ubuntu/bionic/ubuntu-installer/amd64/initrd.gz rescue/enable=true --- quiet
+
+label hd
+  menu label Boot from first hard ^disk
+  localboot 0x80
+
+======================================================================
+
+label ubuntu desktop
+        menu label ubuntu ^desktop
+        kernel ubuntu/bionic/ubuntu-installer/amd64/linux
+        append vga=788 initrd=ubuntu/bionic/ubuntu-installer/amd64/initrd.gz url=http://SERVER/bionic/desktop.cfg --- quiet
+        append vga=788 initrd=ubuntu/bionic/ubuntu-installer/amd64/initrd.gz --- quiet
+        append vga=788 initrd=ubuntu/bionic/ubuntu-installer/amd64/initrd.gz tasks=standard pkgsel/language-pack-patterns= pkgsel/install-language-support=false --- quiet
+
+        kernel /casper/vmlinuz
+        append file=/cdrom/preseed/ubuntu.seed boot=casper initrd=/casper/initrd.lz quiet splash ---
+        append file=/cdrom/preseed/ubuntu.seed boot=casper initrd=/casper/initrd.lz only-ubiquity quiet splash ---
+
+	linux	/casper/vmlinuz  file=/cdrom/preseed/ubuntu.seed boot=casper quiet splash ---
+	initrd	/casper/initrd.lz
+	linux	/casper/vmlinuz  file=/cdrom/preseed/ubuntu.seed boot=casper only-ubiquity quiet splash ---
+	initrd	/casper/initrd.lz
+	linux	/casper/vmlinuz  file=/cdrom/preseed/ubuntu.seed boot=casper only-ubiquity quiet splash oem-config/enable=true ---
+	initrd	/casper/initrd.lz
+	linux	/casper/vmlinuz  file=/cdrom/preseed/ubuntu.seed boot=casper iso-scan/filename=${iso_path} quiet splash ---
+	initrd	/casper/initrd.lz
+	linux	/casper/vmlinuz  file=/cdrom/preseed/ubuntu.seed boot=casper only-ubiquity iso-scan/filename=${iso_path} quiet splash ---
+	initrd	/casper/initrd.lz
+	linux	/casper/vmlinuz  boot=casper integrity-check iso-scan/filename=${iso_path} quiet splash ---
+	initrd	/casper/initrd.lz
+	linux16	/install/mt86plus
+
+label ubuntu live server
+        menu label ubuntu ^live server
+        kernel /casper/vmlinuz
+        append boot=casper initrd=/casper/initrd.gz quiet  ---
+
+        label normal=Normal
+                append normal=
+        label driverupdates=Use driver update disc
+                append driverupdates=debian-installer/driver-update=true
+                applies driverupdates=live live-install
+        label oem=OEM install (for manufacturers)
+                append oem=oem-config/enable=true
+                applies oem=live live-install install
+
+	linux	/casper/vmlinuz   boot=casper quiet  ---
+	initrd	/casper/initrd.gz
+	linux	/casper/vmlinuz   boot=casper only-ubiquity quiet splash oem-config/enable=true ---
+	initrd	/casper/initrd.gz
+	linux	/casper/vmlinuz   boot=casper iso-scan/filename=${iso_path} quiet  ---
+	initrd	/casper/initrd.gz
+
+label ubuntu server
+        menu label ubuntu ^server
+        kernel ubuntu/bionic/ubuntu-installer/amd64/linux
+        append vga=788 initrd=ubuntu/bionic/ubuntu-installer/amd64/initrd.gz url=http://SERVER/bionic/server.cfg auto=true priority=critical interface=auto netcfg/dhcp_timeout=60 -- quiet
+        append vga=788 initrd=ubuntu/bionic/ubuntu-installer/amd64/initrd.gz --- quiet
+        append vga=788 initrd=ubuntu/bionic/ubuntu-installer/amd64/initrd.gz tasks=standard pkgsel/language-pack-patterns= pkgsel/install-language-support=false --- quiet
+
+        kernel /install/vmlinuz
+        append file=/cdrom/preseed/ubuntu-server.seed vga=788 initrd=/install/initrd.gz quiet ---
+        append modules=maas-region-udeb vga=788 initrd=/install/initrd.gz quiet ---
+        append modules=maas-rack-udeb vga=788 initrd=/install/initrd.gz quiet ---
+
+        label normal=Normal
+                append normal=
+        label oem=OEM install (for manufacturers)
+                append oem=oem-config/enable=true
+                applies oem=install
+        label minimal=Install a minimal system
+                replace minimal=file=/cdrom/preseed/ubuntu-server-minimal.seed
+                applies minimal=install
+        label minimalvm=Install a minimal virtual machine
+                replace minimalvm=file=/cdrom/preseed/ubuntu-server-minimalvm.seed
+                applies minimalvm=install
+
+	linux	/install/vmlinuz  file=/cdrom/preseed/ubuntu-server.seed quiet ---
+	initrd	/install/initrd.gz
+	linux	/install/vmlinuz  file=/cdrom/preseed/ubuntu-server.seed quiet oem-config/enable=true ---
+	initrd	/install/initrd.gz
+	linux	/install/vmlinuz  modules=maas-region-udeb vga=788 initrd=/install/initrd.gz quiet ---
+	initrd	/install/initrd.gz
+	linux	/install/vmlinuz  modules=maas-rack-udeb vga=788 initrd=/install/initrd.gz quiet ---
+	initrd	/install/initrd.gz
+
+label ubuntu rescue
+        menu label ubuntu ^rescue
+        kernel ubuntu/bionic/ubuntu-installer/amd64/linux
+        append vga=788 initrd=ubuntu/bionic/ubuntu-installer/amd64/initrd.gz rescue/enable=true --- quiet
+
+label hd
+  menu label Boot from first hard ^disk
+  localboot 0x80

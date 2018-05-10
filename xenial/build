@@ -1,0 +1,7 @@
+#!/bin/bash
+
+dpkg-reconfigure tzdata
+cp -f ./root/.vimrc /root/
+cp -f ./root/updater /root/
+cp -f ./etc/apt/sources.list /etc/apt/
+/root/updater

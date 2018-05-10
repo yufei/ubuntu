@@ -1,0 +1,69 @@
+# Common
+# preseed will setup initial root password
+# hostnamectl set-hostname XXX
+# network with netplan
+# new resolv.conf
+# remove /etc/apt/apt.conf
+# change root password
+# time zone for corp env
+#
+---
+- hosts: localhost
+  tasks:
+    - name: file sources.list
+      template:
+        src: template/sources.list
+        dest: /etc/apt/sources.list
+        mode: 0644
+    - name: file apt proxy
+      template:
+        src: template/proxy
+        dest: /etc/apt/apt.conf.d/proxy
+        mode: 0644
+    - name: apt update
+      apt:
+        update_cache: yes
+
+    - name: package base
+      apt:
+        name: ansible,ansible-lint
+        state: latest
+      
+    - name: package vim
+      apt:
+        name: vim
+        state: latest
+    - name: root user .vimrc
+      template:
+        src: template/vimrc
+        dest: /root/.vimrc
+
+    - name: file updater
+      template:
+        src: template/updater
+        dest: /root/updater
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: package openssh-server
+      apt:
+        name: openssh-server
+        state: latest
+    - name: file sshd_config
+      template:
+        src: template/sshd_config
+        dest: /etc/ssh/sshd_config
+      notify:
+        - restart ssh
+    - name: service ssh
+      service:
+        name: ssh
+        enabled: yes
+        state: started
+
+  handlers:
+    - name: restart ssh
+      service:
+        name: ssh
+        state: restarted

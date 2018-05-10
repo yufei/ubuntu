@@ -1,0 +1,18 @@
+# Desktop
+# install vim, openssh-server
+#
+# ifconfig retired
+#
+#/etc/network/interfaces
+## interfaces(5) file used by ifup(8) and ifdown(8)
+#auto lo
+#iface lo inet loopback
+#
+#/etc/netplan/01-network-manager-all.yaml 
+## Let NetworkManager manage all devices on this system
+#network:
+#  version: 2
+#  renderer: NetworkManager
+---
+- name: import common
+  import_playbook: common.yml

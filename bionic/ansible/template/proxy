@@ -1,0 +1,2 @@
+Acquire::http::Proxy "http://apt:3142/";
+#Acquire::https::Proxy "http://apt:3142/";
