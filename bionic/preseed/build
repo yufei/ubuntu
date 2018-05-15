@@ -1,3 +1,7 @@
 #!/bin/bash
 
-mkdir -p _build
+mkdir -p _build/bionic
+sed -e "s/APT/172.16.154.14/g" bionic/bionic.cfg > _build/bionic/bionic.cfg
+cp -f bionic/server.cfg _build/bionic/
+cp -f bionic/desktop.cfg _build/bionic/
+rsync -avz _build/bionic xbj-apt:/usr/local/xilinx/site/preseed

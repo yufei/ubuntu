@@ -1,0 +1,29 @@
+#http://archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/current/images/netboot/netboot.tar.gz
+#chmod 644 bionic/ubuntu-installer/amd64/linux (perssion bug 600->644)
+
+#SERVER
+#APT
+
+label ubuntu desktop
+        menu label ubuntu ^desktop
+        kernel ubuntu/bionic/ubuntu-installer/amd64/linux
+        append vga=788 initrd=ubuntu/bionic/ubuntu-installer/amd64/initrd.gz auto=true priority=critical interface=auto netcfg/dhcp_timeout=60 url=http://SERVER/bionic/desktop.cfg -- quiet
+ 
+label ubuntu live server
+        menu label ubuntu ^live server
+        kernel /casper/vmlinuz
+        append boot=casper initrd=/casper/initrd.gz quiet  ---
+
+label ubuntu server
+        menu label ubuntu ^server
+        kernel ubuntu/bionic/ubuntu-installer/amd64/linux
+        append vga=788 initrd=ubuntu/bionic/ubuntu-installer/amd64/initrd.gz auto=true priority=critical interface=auto netcfg/dhcp_timeout=60 url=http://SERVER/bionic/server.cfg -- quiet
+ 
+label ubuntu rescue
+        menu label ubuntu ^rescue
+        kernel ubuntu/bionic/ubuntu-installer/amd64/linux
+        append vga=788 initrd=ubuntu/bionic/ubuntu-installer/amd64/initrd.gz rescue/enable=true --- quiet
+
+label hd
+  menu label Boot from first hard ^disk
+  localboot 0x80
