@@ -27,3 +27,21 @@ label ubuntu rescue
 label hd
   menu label Boot from first hard ^disk
   localboot 0x80
+
+
+# just for research
+#label ubuntu desktop casper test
+#        menu label ubuntu desktop casper test
+#        kernel ubuntu/bionic-casper/desktop/casper/vmlinuz
+#        append initrd=ubuntu/bionic-casper/desktop/casper/initrd.lz boot=casper only-ubiquity netboot=nfs nfsroot=SERVER:/bionic-casper/desktop file=ubuntu/bionic-casper/desktop/preseed/ubuntu.seed quiet splash ---
+#
+#label ubuntu live server casper test
+#        menu label ubuntu live server casper test
+#        kernel ubuntu/bionic-casper/liveserver/casper/vmlinuz
+#        append initrd=ubuntu/bionic-casper/liveserver/casper/initrd.gz boot=casper netboot=nfs nfsroot=SERVER:/bionic-casper/liveserver quiet ---
+#
+#label ubuntu server casper test
+#        menu label ubuntu server casper test
+#        kernel ubuntu/bionic-casper/server/install/vmlinuz
+#        append vga=788 initrd=ubuntu/bionic-casper/server/install/initrd.gz netboot=nfs nfsroot=SERVER:/bionic-casper/server file=ubuntu/bionic-casper/server/preseed/ubuntu-server.seed quiet ---
+#
