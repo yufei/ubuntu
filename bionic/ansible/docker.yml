@@ -5,7 +5,22 @@
       apt:
         name: docker.io
         state: latest
+    - name: directory /etc/systemd/system/docker.service.d
+      file:
+        path: /etc/systemd/system/docker.service.d
+        state: directory
     - name: docker.io file
-      templates:
+      template:
         src: templates/http-proxy.conf
         dest: /etc/systemd/system/docker.service.d/http-proxy.conf
+      notify:
+        - systemd reload
+        - restart docker
+
+  handlers:
+    - name: systemd reload
+      command: systemctl daemon-reload
+    - name: restart docker
+      service:
+        name: docker
+        state: restarted
