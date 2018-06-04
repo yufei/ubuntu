@@ -12,12 +12,12 @@
   tasks:
     - name: file sources.list
       template:
-        src: template/sources.list
+        src: templates/sources.list
         dest: /etc/apt/sources.list
         mode: 0644
     - name: file apt proxy
       template:
-        src: template/proxy
+        src: templates/proxy
         dest: /etc/apt/apt.conf.d/proxy
         mode: 0644
     - name: apt update
@@ -35,12 +35,12 @@
         state: latest
     - name: root user .vimrc
       template:
-        src: template/vimrc
+        src: templates/vimrc
         dest: /root/.vimrc
 
     - name: file updater
       template:
-        src: template/updater
+        src: templates/updater
         dest: /root/updater
         owner: root
         group: root
@@ -52,7 +52,7 @@
         state: latest
     - name: file sshd_config
       template:
-        src: template/sshd_config
+        src: templates/sshd_config
         dest: /etc/ssh/sshd_config
       notify:
         - restart ssh

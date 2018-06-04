@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  tasks:
+    - name: docker.io
+      apt:
+        name: docker.io
+        state: latest
+    - name: docker.io file
+      templates:
+        src: templates/http-proxy.conf
+        dest: /etc/systemd/system/docker.service.d/http-proxy.conf
