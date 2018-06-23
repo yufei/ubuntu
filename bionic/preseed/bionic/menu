@@ -1,0 +1,47 @@
+#http://archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/current/images/netboot/netboot.tar.gz
+#chmod 644 bionic/ubuntu-installer/amd64/linux (perssion bug 600->644)
+
+#SERVER
+#APT
+
+label ubuntu desktop
+        menu label ubuntu ^desktop
+        kernel ubuntu/bionic/ubuntu-installer/amd64/linux
+        append vga=788 initrd=ubuntu/bionic/ubuntu-installer/amd64/initrd.gz auto=true priority=critical interface=auto netcfg/dhcp_timeout=60 url=http://SERVER/bionic/desktop.cfg -- quiet
+ 
+label ubuntu live server
+        menu label ubuntu ^live server
+        kernel /casper/vmlinuz
+        append boot=casper initrd=/casper/initrd.gz quiet  ---
+
+label ubuntu server
+        menu label ubuntu ^server
+        kernel ubuntu/bionic/ubuntu-installer/amd64/linux
+        append vga=788 initrd=ubuntu/bionic/ubuntu-installer/amd64/initrd.gz auto=true priority=critical interface=auto netcfg/dhcp_timeout=60 url=http://SERVER/bionic/server.cfg -- quiet
+ 
+label ubuntu rescue
+        menu label ubuntu ^rescue
+        kernel ubuntu/bionic/ubuntu-installer/amd64/linux
+        append vga=788 initrd=ubuntu/bionic/ubuntu-installer/amd64/initrd.gz rescue/enable=true --- quiet
+
+label hd
+  menu label Boot from first hard ^disk
+  localboot 0x80
+
+
+# just for research
+#label ubuntu desktop casper test
+#        menu label ubuntu desktop casper test
+#        kernel ubuntu/bionic-casper/desktop/casper/vmlinuz
+#        append initrd=ubuntu/bionic-casper/desktop/casper/initrd.lz boot=casper only-ubiquity netboot=nfs nfsroot=SERVER:/bionic-casper/desktop file=ubuntu/bionic-casper/desktop/preseed/ubuntu.seed quiet splash ---
+#
+#label ubuntu live server casper test
+#        menu label ubuntu live server casper test
+#        kernel ubuntu/bionic-casper/liveserver/casper/vmlinuz
+#        append initrd=ubuntu/bionic-casper/liveserver/casper/initrd.gz boot=casper netboot=nfs nfsroot=SERVER:/bionic-casper/liveserver quiet ---
+#
+#label ubuntu server casper test
+#        menu label ubuntu server casper test
+#        kernel ubuntu/bionic-casper/server/install/vmlinuz
+#        append vga=788 initrd=ubuntu/bionic-casper/server/install/initrd.gz netboot=nfs nfsroot=SERVER:/bionic-casper/server file=ubuntu/bionic-casper/server/preseed/ubuntu-server.seed quiet ---
+#
